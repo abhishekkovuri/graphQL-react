@@ -1,0 +1,36 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`App test should generate snapshots 1`] = `
+<DocumentFragment>
+  <section
+    class="list"
+  >
+    <header>
+       Render Country List 
+    </header>
+    <section>
+      <h1>
+        Original data
+      </h1>
+      <div
+        class="item"
+      >
+        India - New Delhi
+      </div>
+    </section>
+    <button>
+      Click me
+    </button>
+    <section>
+      <h1>
+        Duplicate data
+      </h1>
+      <div
+        class="item"
+      >
+        Japan - Tokyo
+      </div>
+    </section>
+  </section>
+</DocumentFragment>
+`;

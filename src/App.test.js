@@ -1,34 +1,59 @@
-import { render } from "@testing-library/react"
-import { useQuery } from "@apollo/client"
-import App from "./App"
+import { getByText, render } from '@testing-library/react';
+import { useQuery, useLazyQuery } from '@apollo/client';
+import App from './App';
 
-jest.mock("@apollo/client", () => {
+jest.mock('@apollo/client', () => {
 	return {
 		gql: jest.fn(),
 		useQuery: jest.fn(),
-	}
-})
+		useLazyQuery: jest.fn(),
+	};
+});
 
-describe("App test", () => {
+describe('App test', () => {
 	beforeEach(() => {
 		useQuery.mockReturnValue({
 			data: {
 				getCountries: {
 					countries: [
 						{
-							countryName: "India",
-							capital: "New Delhi",
+							countryName: 'India',
+							capital: 'New Delhi',
 						},
 					],
 				},
 			},
-		})
-	})
+		});
+		useLazyQuery.mockReturnValue([
+			jest.fn(),
+			{
+				data: {
+					getCountries: {
+						countries: [
+							{
+								countryName: 'Japan',
+								capital: 'Tokyo',
+							},
+						],
+					},
+				},
+			},
+		]);
+	});
 
-	test("renders learn react link", () => {
-		const { getByText, queryByText } = render(<App />)
-		expect(getByText(/Render Country List/i)).toBeInTheDocument()
-		expect(getByText(/India - New Delhi/i)).toBeInTheDocument()
-		expect(queryByText(/Japan - Tokyo/i)).not.toBeInTheDocument()
-	})
-})
+	test('should generate snapshots', () => {
+		const { asFragment } = render(<App />);
+
+		expect(asFragment()).toMatchSnapshot();
+	});
+
+	test('should display the ', () => {
+		const { getByText, queryByText } = render(
+			<App />
+		);
+
+		expect(getByText(/Render Country List/i)).toBeInTheDocument();
+		expect(getByText(/India - New Delhi/i)).toBeInTheDocument();
+		expect(queryByText(/Japan - Tokyo/i)).toBeInTheDocument();
+	});
+});
